@@ -1,0 +1,82 @@
+package com.kale.memberservice.common;
+
+import lombok.Getter;
+
+/**
+ * 에러 코드 관리
+ */
+@Getter
+public enum BaseResponseStatus {
+    /**
+     * 1000 : 요청 성공
+     */
+    SUCCESS(true, 1000, "요청에 성공하였습니다."),
+
+    /**
+     * 2000 : Request 오류
+     */
+    // Common
+    REQUEST_ERROR(false, 2000, "입력값을 확인해주세요."),
+    EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
+    INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
+    INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
+
+    // users
+    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+
+    // [POST] /users
+    POST_USERS_EMPTY_EMAIL(false, 2015, "존재하지 않는 이메일입니다."),
+    POST_USERS_WRONG_PASSWORD(false,2014, "비밀번호가 일치하지 않습니다."),
+    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
+    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+
+    //survey
+    SURVEYS_EMPTY_SURVEY_ID(false, 2030, "설문 아이디 값을 확인해주세요."),
+    SURVEYS_EMPTY_SURVEY_TITLE(false, 2031, "설문 제목을 입력해주세요."),
+    SURVEYS_EMPTY_QUESTION(false, 2032, "질문을 한 개 이상 등록해주세요."),
+    SURVEYS_EMPTY_SURVEY_START_DATE(false, 2033, "설문 시작 날짜를 등록해주세요."),
+    SURVEYS_EMPTY_SURVEY_END_DATE(false, 2034, "설문 종료 날짜를 등록해주세요."),
+
+    //response
+    RESPONSE_OWN_SURVEY(false, 2040, "본인이 생성한 설문입니다."),
+    RESPONSE_EXIST_SURVEY(false, 2041, "이미 응답한 설문입니다."),
+    //shortform
+    SHORTFORMS_EMPTY_SHORTFORM_ID(false, 2050, "숏폼 아이디 값을 확인해주세요."),
+    RESPONSE_OWN_SHORTFORM(false, 2051, "본인이 생성한 짧폼입니다."),
+    SHORTFORMS_LACKING_POINT(false, 2052,"짧폼을 해금하기 위한 포인트가 부족합니다."),
+
+    /**
+     * 3000 : Response 오류
+     */
+    // Common
+    RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
+
+    // [POST] /users
+    DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
+    FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+
+    /**
+     * 4000 : Database, Server 오류
+     */
+    DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
+    SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
+
+    //[PATCH] /users/{userIdx}
+    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
+
+    PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
+    // 5000 : 필요시 만들어서 쓰세요
+    // 6000 : 필요시 만들어서 쓰세요
+
+    private final boolean isSuccess;
+    private final int code;
+    private final String message;
+
+    private BaseResponseStatus(boolean isSuccess, int code, String message) {
+        this.isSuccess = isSuccess;
+        this.code = code;
+        this.message = message;
+    }
+}
