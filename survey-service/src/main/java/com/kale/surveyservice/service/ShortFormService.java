@@ -84,7 +84,7 @@ public class ShortFormService {
      */
     public GetShortFormMainRes getShortFormMain(Long memberId) {
 
-        List<GetShortResponseListRes> responses=responseServiceFeignClient.getShortResCount(memberId);
+        List<GetShortResponseListRes> shortAnswers=responseServiceFeignClient.getShortResCount(memberId);
         ShortForm shortForm = shortFormRepository.findRandom().get();
 
 

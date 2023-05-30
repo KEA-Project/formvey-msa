@@ -12,5 +12,5 @@ import lombok.Setter;
 public class GetShortResponseListRes {
     private Long shortAnswerId;
 
-    private Long memberId;
+    private Long shortFormId;
 }
