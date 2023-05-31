@@ -42,12 +42,9 @@ public class SurveyService {
     private final ChoiceRepository choiceRepository;
     private final ShortFormRepository shortFormRepository;
     private final ShortOptionRepository shortOptionRepository;
+    private final MemberServiceFeignClient memberServiceFeignClient;
 
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
-
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
 
     /**
@@ -167,7 +164,7 @@ public class SurveyService {
                 remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             //멤버 서비스로 api 요청
-            String nickname=memberServiceFeignClient.getInfoSub(survey.getMemberId()).getNickname();
+            String nickname=memberServiceFeignClient.getInfoSub(survey.getMemberId()).getResult().getNickname();
             GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getMemberId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), nickname, totalPages);
             surveys.add(dto);
         }
@@ -239,11 +236,11 @@ public class SurveyService {
         getSurveyChartRes.setCreateSurveyCnt(surveyRepository.findByMemberId(memberId).size()); // 제작 설문 수
 
         //응답 서비스 조회 요청
-        List<GetResponseListRes> getResponseListRes=responseServiceFeignClient.getResCount(memberId);
+        List<GetResponseListRes> getResponseListRes=responseServiceFeignClient.getResCount(memberId).getResult();
         getSurveyChartRes.setResponseCnt(getResponseListRes.size());
 
         //숏폼 응답 서비스 조회 요청
-        List<GetShortResponseListRes> getShortResponseListRes=responseServiceFeignClient.getShortResCount(memberId);
+        List<GetShortResponseListRes> getShortResponseListRes=responseServiceFeignClient.getShortResCount(memberId).getResult();
         getSurveyChartRes.setShortFormResponseCnt(getShortResponseListRes.size());
         getSurveyChartRes.setUnReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 1).size());
         getSurveyChartRes.setReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 2).size());

@@ -23,12 +23,7 @@ import java.util.List;
 @RequestMapping("/surveys")
 public class SurveyController {
     private final SurveyService surveyService;
-
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
-
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     //private final JwtService jwtService;
 
@@ -106,8 +101,7 @@ public class SurveyController {
         surveyService.deleteSurvey(surveyId);
 
         //응답 서비스로 요청
-        responseServiceFeignClient.deleteResponses(surveyId);
-        String result = "설문이 삭제되었습니다.";
+        String result =responseServiceFeignClient.deleteResponses(surveyId).getResult();
 
         return new BaseResponse<>(result);
     }

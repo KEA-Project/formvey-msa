@@ -31,8 +31,7 @@ public class ShortFormService {
     private final ShortFormRepository shortFormRepository;
     private final ShortResultRepository shortResultRepository;
 
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     /**
      * 짧폼 리스트 조회
@@ -84,7 +83,7 @@ public class ShortFormService {
      */
     public GetShortFormMainRes getShortFormMain(Long memberId) {
 
-        List<GetShortResponseListRes> shortAnswers=responseServiceFeignClient.getShortResCount(memberId);
+        List<GetShortResponseListRes> shortAnswers=responseServiceFeignClient.getShortResCount(memberId).getResult();
         ShortForm shortForm = shortFormRepository.findRandom(memberId, PageRequest.of(0,1)).stream().findFirst().orElseThrow(() -> new BaseException(DATABASE_ERROR));
 
 
