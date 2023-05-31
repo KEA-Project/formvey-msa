@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/shortforms")
+@RequestMapping("/survey-service/shortforms")
 public class ShortFormController {
     private final ShortFormService shortFormService;
 

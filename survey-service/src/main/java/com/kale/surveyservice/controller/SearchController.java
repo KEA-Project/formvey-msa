@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/searchs")
+@RequestMapping("/survey-service/searchs")
 public class SearchController {
     private final SearchService searchService;
 

@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/surveys")
+@RequestMapping("/survey-service/survey")
 public class SurveyController {
     private final SurveyService surveyService;
     private final ResponseServiceFeignClient responseServiceFeignClient;
