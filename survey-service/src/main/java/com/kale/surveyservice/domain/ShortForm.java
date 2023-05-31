@@ -23,6 +23,8 @@ public class ShortForm extends BaseEntity{
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    private Long memberId;
+
     private String shortQuestion;
 
     private int shortType;
