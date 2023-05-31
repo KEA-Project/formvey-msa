@@ -24,3 +24,7 @@ spring:
           uri: lb://MEMBER-SERVICE
           predicates: # 조건절
             - Path=/member-service/**
+        - id: survey-service
+          uri: lb://SURVEY-SERVICE
+          predicates: # 조건절
+            - Path=/member-service/**

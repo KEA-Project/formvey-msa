@@ -13,8 +13,8 @@ public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
     Page<ShortForm> findAll(Pageable pageable);
 
     //포함 안 되어있는 거 찾기 위한것
-    @Query("SELECT sf FROM ShortForm sf ORDER BY FUNCTION('RAND')")
-    Optional<ShortForm> findRandom();
+    @Query("SELECT sf FROM ShortForm sf WHERE sf.memberId <> ?1 ORDER BY FUNCTION('RAND')")
+    Page<ShortForm> findRandom(Long memberId, Pageable pageable);
 
     // 숏폼 게시판 검색 쿼리
     @Query("SELECT sf FROM ShortForm sf WHERE sf.shortQuestion LIKE %:keyword% OR sf.survey.surveyTitle LIKE %:keyword%")
