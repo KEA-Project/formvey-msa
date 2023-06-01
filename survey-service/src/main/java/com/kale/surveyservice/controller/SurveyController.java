@@ -21,17 +21,12 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/survey-service/surveys")
+@RequestMapping("/survey-service/survey")
 public class SurveyController {
     private final SurveyService surveyService;
-
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     //private final JwtService jwtService;
-
 
     /**
      * 설문 조회 (client)
@@ -52,7 +47,6 @@ public class SurveyController {
     private void incrementCount(@PathVariable Long surveyId) {
         surveyService.incrementCount(surveyId);
     }
-
 
     /**
      * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장 ) / status = 2 -> 짧폼등록 o
@@ -128,8 +122,7 @@ public class SurveyController {
         surveyService.deleteSurvey(surveyId);
 
         //응답 서비스로 요청
-        responseServiceFeignClient.deleteResponses(surveyId);
-        String result = "설문이 삭제되었습니다.";
+        String result =responseServiceFeignClient.deleteResponses(surveyId).getResult();
 
         return new BaseResponse<>(result);
     }

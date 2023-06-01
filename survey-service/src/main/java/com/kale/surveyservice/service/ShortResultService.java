@@ -29,16 +29,14 @@ public class ShortResultService {
 
     private final ShortResultRepository shortResultRepository;
     private final ShortFormRepository shortFormRepository;
-
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
+    private final MemberServiceFeignClient memberServiceFeignClient;
 
     /**
      * 짧폼 해금
      */
     public void responseShortResult(Long shortFormId, Long memberId) {
         //멤버 서비스로 api 요청
-        int point=memberServiceFeignClient.getInfoSub(memberId).getPoint();
+        int point=memberServiceFeignClient.getInfoSub(memberId).getResult().getPoint();
         ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
 
         // 해금하면 사용자 point 차감
@@ -46,7 +44,7 @@ public class ShortResultService {
             throw new BaseException( SHORTFORMS_LACKING_POINT);
         } else {
             //멤버 서비스로 포인트 차감 api 요청
-           memberServiceFeignClient.modifyPoint(memberId);
+           String reduce=memberServiceFeignClient.modifyPoint(memberId).getResult();
         }
         // 짧폼 해금
         shortResultRepository.save(PostShortResultReq.toEntity(memberId, shortForm));
