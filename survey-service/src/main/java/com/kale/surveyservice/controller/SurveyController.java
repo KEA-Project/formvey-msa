@@ -20,15 +20,10 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/surveys")
+@RequestMapping("/survey-service/survey")
 public class SurveyController {
     private final SurveyService surveyService;
-
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
-
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     //private final JwtService jwtService;
 
@@ -103,11 +98,7 @@ public class SurveyController {
 //        if (deleteSurveyReq.getMemberId() != memberIdByJwt) {
 //            return new BaseResponse<>(INVALID_USER_JWT);
 //        }
-        surveyService.deleteSurvey(surveyId);
-
-        //응답 서비스로 요청
-        responseServiceFeignClient.deleteResponses(surveyId);
-        String result = "설문이 삭제되었습니다.";
+        String result = surveyService.deleteSurvey(surveyId);
 
         return new BaseResponse<>(result);
     }

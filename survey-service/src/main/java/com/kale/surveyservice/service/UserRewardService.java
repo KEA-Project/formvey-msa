@@ -25,14 +25,14 @@ import java.util.List;
 public class UserRewardService {
     private final UserRewardRepository userRewardRepository;
 
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     /**
      * 랜덤 발송
      */
     public void randomReward(PostRandomRewardReq dto, Long surveyId) {
-        List<GetResponseListInfoRes> responses=responseServiceFeignClient.getResListInfo(surveyId);
+        List<GetResponseListInfoRes> responses=responseServiceFeignClient.getResListInfo(surveyId).getResult();
 
         //리워드 랜덤 매핑
         for(int i=0;i< dto.getRewardUrl().size();i++){

@@ -1,17 +1,16 @@
 package com.kale.surveyservice.client;
 
+import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.member.GetMemberInfoSubRes;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient("member-service")
+@FeignClient(name = "member-service", url = "http://localhost:8081/member-service")
 public interface MemberServiceFeignClient {
 
-    @GetMapping("/members/info/sub/{memberId}")
-    GetMemberInfoSubRes getInfoSub(@PathVariable("memberId") Long memberId);
+    @RequestMapping(method = RequestMethod.GET, value = "/members/info/sub/{memberId}", consumes = "application/json")
+    BaseResponse<GetMemberInfoSubRes> getInfoSub(@PathVariable("memberId") Long memberId);
 
-    @PatchMapping("/members/point/{memberId}")
-    void modifyPoint(@PathVariable("memberId") Long memberId);
+    @RequestMapping(method = RequestMethod.PATCH, value = "/members/point/{memberId}", consumes = "application/json")
+    BaseResponse<String> modifyPoint(@PathVariable("memberId") Long memberId);
 }

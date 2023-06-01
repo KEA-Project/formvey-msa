@@ -21,10 +21,10 @@ spring:
             postLogger: true
       routes:
         - id: member-service
-          uri: lb://MEMBER-SERVICE
+          uri: http://localhost:8081
           predicates: # 조건절
             - Path=/member-service/**
         - id: survey-service
-          uri: lb://SURVEY-SERVICE
+          uri: http://localhost:8082
           predicates: # 조건절
-            - Path=/member-service/**
+            - Path=/survey-service/**

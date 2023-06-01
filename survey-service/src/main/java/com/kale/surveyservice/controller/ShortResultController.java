@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/shortresults")
+@RequestMapping("/survey-service/shortresults")
 public class ShortResultController {
     private final ShortResultService shortResultService;
     //private final JwtService jwtService;

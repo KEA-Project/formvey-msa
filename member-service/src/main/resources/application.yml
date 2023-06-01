@@ -1,14 +1,14 @@
 server:
-  #port: 8081
-  port: 0
+  port: 8081
+
 spring:
   application:
     name: member-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/memberDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/memberdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: dltmdgml12!
+    password: sh0908!!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   mvc:
@@ -30,6 +30,10 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}}
 
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true

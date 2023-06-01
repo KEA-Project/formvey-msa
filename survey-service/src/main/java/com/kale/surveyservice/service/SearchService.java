@@ -27,8 +27,8 @@ import java.util.List;
 public class SearchService {
     private final SurveyRepository surveyRepository;
     private final ShortFormRepository shortFormRepository;
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
+
+    private final MemberServiceFeignClient memberServiceFeignClient;
 
     public List<GetSurveyBoardRes> getSearchBoard(String keyword, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
@@ -45,7 +45,7 @@ public class SearchService {
             if (endDate != null)
                 remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
-            String nickname=memberServiceFeignClient.getInfoSub(survey.getMemberId()).getNickname();
+            String nickname=memberServiceFeignClient.getInfoSub(survey.getMemberId()).getResult().getNickname();
             GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(),survey.getMemberId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), nickname, totalPages);
             surveys.add(dto);
         }
