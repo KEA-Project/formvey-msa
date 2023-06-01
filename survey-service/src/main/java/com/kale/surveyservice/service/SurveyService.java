@@ -140,9 +140,14 @@ public class SurveyService {
     /**
      * 설문 삭제
      */
-    public void deleteSurvey(Long surveyId) {
+    public String deleteSurvey(Long surveyId) {
         Survey survey = surveyRepository.findById(surveyId).get();
         surveyRepository.delete(survey); //설문과 관련된 모든 것 삭제
+
+        //응답 서비스로 요청
+        String result =responseServiceFeignClient.deleteResponses(surveyId).getResult();
+
+        return result;
     }
 
     /**

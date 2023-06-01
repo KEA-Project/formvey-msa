@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.BaseStream;
 
 @FeignClient(name="response-service", url = "http://localhost:8083/response-service")
 public interface ResponseServiceFeignClient {
@@ -25,4 +26,6 @@ public interface ResponseServiceFeignClient {
     @RequestMapping(method = RequestMethod.GET, value = "/shortanswers/list/count/{memberId}", consumes = "application/json")
     BaseResponse<List<GetShortResponseListRes>> getShortResCount(@PathVariable("memberId") Long memberId);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/shortanswers/exist/{memberId}/{shortformId}", consumes = "application/json")
+    BaseResponse<String> existShortResponse(@PathVariable("memberId") Long memberId, @PathVariable("shortformId") Long shortformId);
 }

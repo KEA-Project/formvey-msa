@@ -27,4 +27,4 @@ spring:
         - id: survey-service
           uri: http://localhost:8082
           predicates: # 조건절
-            - Path=/member-service/**
+            - Path=/survey-service/**

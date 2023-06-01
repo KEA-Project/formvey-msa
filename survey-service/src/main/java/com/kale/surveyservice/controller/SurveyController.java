@@ -98,10 +98,7 @@ public class SurveyController {
 //        if (deleteSurveyReq.getMemberId() != memberIdByJwt) {
 //            return new BaseResponse<>(INVALID_USER_JWT);
 //        }
-        surveyService.deleteSurvey(surveyId);
-
-        //응답 서비스로 요청
-        String result =responseServiceFeignClient.deleteResponses(surveyId).getResult();
+        String result = surveyService.deleteSurvey(surveyId);
 
         return new BaseResponse<>(result);
     }
