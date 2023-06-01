@@ -173,4 +173,43 @@ public class MemberController {
 
         return new BaseResponse<>(result);
     }
+
+    /**
+     * 설문 서비스에서 요청하는 회원 정보 api
+     * [GET] /members/info/sub/{memberId}
+     * @return BaseResponse<GetMemberInfoSubRes>
+     */
+    @ResponseBody
+    @GetMapping("/members/info/sub/{memberId}")
+    @Operation(summary = "설문 서비스에서 요청하는 회원 정보 api")
+    @Parameter(name = "memberId",  description = "조회할 유저 인덱스", required = true)
+    @ApiResponses({
+            @ApiResponse(responseCode = "2010", description = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(responseCode = "4000", description = "데이터베이스 연결에 실패하였습니다.")
+    })
+    private BaseResponse<GetMemberInfoSubRes> getInfoSub(@PathVariable("memberId") Long memberId) {
+
+        GetMemberInfoSubRes getMemberInfoSubRes=memberService.getMemberSubInfo(memberId);
+        return new BaseResponse<>(getMemberInfoSubRes);
+    }
+
+    /**
+     * 설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api
+     * [GET] /members/point/{memberId}
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @GetMapping("/members/point/{memberId}")
+    @Operation(summary = "설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api")
+    @Parameter(name = "memberId",  description = "포인트 차감할 유저 인덱스", required = true)
+    @ApiResponses({
+            @ApiResponse(responseCode = "2010", description = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(responseCode = "4000", description = "데이터베이스 연결에 실패하였습니다.")
+    })
+    private BaseResponse<String> modifyPoint(@PathVariable("memberId") Long memberId) {
+
+        memberService.modifyPoint(memberId);
+        String result="포인트 차감되었습니다.";
+        return new BaseResponse<>(result);
+    }
 }

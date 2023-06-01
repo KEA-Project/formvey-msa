@@ -2,10 +2,7 @@ package com.kale.memberservice.service;
 
 import com.kale.memberservice.common.BaseException;
 import com.kale.memberservice.domain.Member;
-import com.kale.memberservice.dto.GetMemberRes;
-import com.kale.memberservice.dto.PatchMemberReq;
-import com.kale.memberservice.dto.PostMemberReq;
-import com.kale.memberservice.dto.PostMemberRes;
+import com.kale.memberservice.dto.*;
 import com.kale.memberservice.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +52,19 @@ public class MemberService {
     }
 
     /**
+     * 설문 서비스에서 요청하는 회원 정보 api
+     */
+    public GetMemberInfoSubRes getMemberSubInfo(Long memberId) {
+        // 해당 유저 id가 존재하지 않을 때
+        if (memberRepository.findById(memberId).isEmpty())
+            throw new BaseException(USERS_EMPTY_USER_ID);
+
+        Member member = memberRepository.findById(memberId).get();
+
+        return new GetMemberInfoSubRes(member.getNickname(), member.getPoint());
+    }
+
+    /**
      * 회원 정보 수정
      */
     public void editProfile(Long memberId, PatchMemberReq dto) {
@@ -65,5 +75,13 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).get();
         member.update(dto);
         memberRepository.save(member);
+    }
+
+    /**
+     * 설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api
+     */
+    public void modifyPoint(Long memberId){
+        Member member = memberRepository.findById(memberId).get();
+        member.modifySurveyPoint(-20);
     }
 }
