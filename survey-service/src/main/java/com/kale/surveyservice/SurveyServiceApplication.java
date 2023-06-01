@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
+@EnableDiscoveryClient
 public class SurveyServiceApplication {
 
     public static void main(String[] args) {

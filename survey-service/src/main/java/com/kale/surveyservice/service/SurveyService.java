@@ -7,6 +7,7 @@ import com.kale.surveyservice.common.BaseException;
 import com.kale.surveyservice.domain.*;
 import com.kale.surveyservice.dto.choice.GetChoiceInfoRes;
 import com.kale.surveyservice.dto.choice.PostChoiceReq;
+import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.question.GetQuestionInfoRes;
 import com.kale.surveyservice.dto.question.PostQuestionReq;
 import com.kale.surveyservice.dto.response.GetResponseListRes;
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.kale.surveyservice.common.BaseResponseStatus.*;
@@ -42,13 +44,22 @@ public class SurveyService {
     private final ChoiceRepository choiceRepository;
     private final ShortFormRepository shortFormRepository;
     private final ShortOptionRepository shortOptionRepository;
+    private final MemberServiceFeignClient memberServiceFeignClient;
+    private final ResponseServiceFeignClient responseServiceFeignClient;
 
-    @Autowired
-    private MemberServiceFeignClient memberServiceFeignClient;
+    public GetSurveyRes getSurveyById(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId).get();
 
-    @Autowired
-    private ResponseServiceFeignClient responseServiceFeignClient;
+        return new GetSurveyRes(survey.getId(), survey.getMemberId(), survey.getSurveyTitle(), survey.getSurveyContent(),
+                survey.getStartDate(), survey.getEndDate(), survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(),
+                survey.getExitUrl(), survey.getStatus());
+    }
 
+    public void incrementCount(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId).get();
+        survey.increaseResponseCnt();
+        surveyRepository.save(survey);
+    }
 
     /**
      * 설문 첫 생성 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)

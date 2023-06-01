@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rewards")
+@RequestMapping("/survey-service/rewards")
 public class UserRewardController {
     private final UserRewardService userRewardService;
     //private final JwtService jwtService;

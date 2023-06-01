@@ -1,5 +1,6 @@
 package com.kale.responseservice.domain;
 
+import com.kale.responseservice.dto.response.PostResponseReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Response extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "response_id")
     private Long id;
+
     private LocalDateTime responseDate;
 
     @OneToMany(mappedBy = "response", cascade = CascadeType.REMOVE)
@@ -41,9 +43,9 @@ public class Response extends BaseEntity {
 //    @JoinColumn(name = "survey_id")
 //    private Survey survey;
 //
-//    public void update(PostResponseReq dto, Member member, Survey survey){
-//        this.member=member;
-//        this.survey=survey;
-//        this.responseDate=dto.getResponseDate();
-//    }
+    public void update(PostResponseReq dto, Long memberId, Long surveyId){
+        this.memberId = memberId;
+        this.surveyId = surveyId;
+        this.responseDate = dto.getResponseDate();
+    }
 }

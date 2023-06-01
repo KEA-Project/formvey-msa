@@ -1,4 +1,4 @@
-package com.kale.responseservice.dto.client;
+package com.kale.surveyservice.dto.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -3,6 +3,7 @@ package com.kale.surveyservice.controller;
 import com.kale.surveyservice.client.MemberServiceFeignClient;
 import com.kale.surveyservice.client.ResponseServiceFeignClient;
 import com.kale.surveyservice.common.BaseResponse;
+import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.survey.*;
 import com.kale.surveyservice.service.SurveyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,17 +21,38 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/surveys")
+@RequestMapping("/survey-service/surveys")
 public class SurveyController {
     private final SurveyService surveyService;
 
     @Autowired
     private MemberServiceFeignClient memberServiceFeignClient;
-
     @Autowired
     private ResponseServiceFeignClient responseServiceFeignClient;
 
     //private final JwtService jwtService;
+
+
+    /**
+     * 설문 조회 (client)
+     */
+    @ResponseBody
+    @PatchMapping("/{surveyId}")
+    private BaseResponse<GetSurveyRes> getSurveyById(@PathVariable Long surveyId) {
+        GetSurveyRes getSurveyRes = surveyService.getSurveyById(surveyId);
+
+        return new BaseResponse<>(getSurveyRes);
+    }
+
+    /**
+     * 설문 응답 수 증가 (client)
+     */
+    @ResponseBody
+    @PatchMapping("/increment-cnt/{surveyId}")
+    private void incrementCount(@PathVariable Long surveyId) {
+        surveyService.incrementCount(surveyId);
+    }
+
 
     /**
      * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장 ) / status = 2 -> 짧폼등록 o

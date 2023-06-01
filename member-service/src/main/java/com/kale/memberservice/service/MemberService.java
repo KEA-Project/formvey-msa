@@ -21,6 +21,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     /**
+     * 멤버 포인트 증가 (client)
+     */
+    public void incrementPoint(Long memberId, int point) {
+        Member member = memberRepository.findById(memberId).get();
+        member.modifySurveyPoint(point);
+
+        memberRepository.save(member);
+    }
+
+    /**
      * 이메일 회원가입
      */
     public PostMemberRes emailSignup(PostMemberReq dto) {

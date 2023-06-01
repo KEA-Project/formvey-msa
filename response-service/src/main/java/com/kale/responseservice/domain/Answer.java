@@ -22,14 +22,12 @@ public class Answer extends BaseEntity {
 
     private Long questionId;
 
-    private Long responseId;
-
 //    @ManyToOne
 //    @JoinColumn(name = "question_id")
 //    private Question question;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "response_id")
-//    private Response response;
+
+    @ManyToOne
+    @JoinColumn(name = "response_id")
+    private Response response;
 
 }
