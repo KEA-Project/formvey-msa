@@ -1,8 +1,8 @@
 package com.kale.surveyservice.controller;
 
-import com.kale.surveyservice.client.MemberServiceFeignClient;
 import com.kale.surveyservice.client.ResponseServiceFeignClient;
 import com.kale.surveyservice.common.BaseResponse;
+import com.kale.surveyservice.dto.client.GetQuestionRes;
 import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.survey.*;
 import com.kale.surveyservice.service.SurveyService;
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -48,6 +47,16 @@ public class SurveyController {
         surveyService.incrementCount(surveyId);
     }
 
+    /**
+     * 질문 조회 (client)
+     */
+    @ResponseBody
+    @GetMapping("/surveys/questions/{surveyId}")
+    private BaseResponse<GetQuestionRes> getQuestionBySurveyId(@PathVariable Long surveyId) {
+        GetQuestionRes getQuestionRes = surveyService.getQuestionBySurveyId(surveyId);
+
+        return new BaseResponse<>(getQuestionRes);
+    }
     /**
      * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장 ) / status = 2 -> 짧폼등록 o
      * [POST] /surveys/create

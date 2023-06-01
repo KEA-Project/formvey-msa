@@ -12,10 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetQuestionRes {
-    private Long id;
-
-    private Long surveyId;
+public class GetQuestionInfoRes {
+    private Long questionId;
 
     private int questionIdx;
 
@@ -27,5 +25,5 @@ public class GetQuestionRes {
 
     private int isShort;
 
-    private List<GetChoiceRes> choices = new ArrayList<>();
+    private List<GetChoiceInfoRes> choices = new ArrayList<>();
 }

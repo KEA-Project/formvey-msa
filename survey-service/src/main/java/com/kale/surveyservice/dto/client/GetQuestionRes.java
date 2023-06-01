@@ -1,5 +1,8 @@
-package com.kale.responseservice.dto.client;
+package com.kale.surveyservice.dto.client;
 
+import com.kale.surveyservice.domain.Survey;
+import com.kale.surveyservice.dto.choice.GetChoiceInfoRes;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

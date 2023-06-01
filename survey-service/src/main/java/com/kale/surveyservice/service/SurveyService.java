@@ -1,12 +1,13 @@
 package com.kale.surveyservice.service;
 
-import com.kale.surveyservice.*;
+import com.kale.surveyservice.dto.client.GetQuestionRes;
 import com.kale.surveyservice.client.MemberServiceFeignClient;
 import com.kale.surveyservice.client.ResponseServiceFeignClient;
 import com.kale.surveyservice.common.BaseException;
 import com.kale.surveyservice.domain.*;
 import com.kale.surveyservice.dto.choice.GetChoiceInfoRes;
 import com.kale.surveyservice.dto.choice.PostChoiceReq;
+import com.kale.surveyservice.dto.client.GetChoiceRes;
 import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.question.GetQuestionInfoRes;
 import com.kale.surveyservice.dto.question.PostQuestionReq;
@@ -59,6 +60,18 @@ public class SurveyService {
         Survey survey = surveyRepository.findById(surveyId).get();
         survey.increaseResponseCnt();
         surveyRepository.save(survey);
+    }
+
+    public GetQuestionRes getQuestionBySurveyId(Long surveyId) {
+        Question question = questionRepository.findById(surveyId).get();
+        List<Choice> choices = choiceRepository.findByQuestionId(question.getId());
+        List<GetChoiceRes> choicesDto = new ArrayList<>();
+        for (Choice c : choices) {
+            choicesDto.add(new GetChoiceRes(c.getId(), c.getQuestion().getId(), c.getChoiceIndex(), c.getChoiceContent()));
+        }
+        return new GetQuestionRes(question.getId(), question.getSurvey().getId(), question.getQuestionIdx(),
+                question.getQuestionTitle(), question.getType(), question.getIsEssential(), question.getIsShort(),
+                choicesDto);
     }
 
     /**
