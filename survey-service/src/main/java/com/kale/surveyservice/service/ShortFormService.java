@@ -4,13 +4,13 @@ package com.kale.surveyservice.service;
 import com.kale.surveyservice.client.ResponseServiceFeignClient;
 import com.kale.surveyservice.common.BaseException;
 import com.kale.surveyservice.domain.*;
+import com.kale.surveyservice.dto.client.GetClientShortFormRes;
 import com.kale.surveyservice.dto.response.GetShortResponseListRes;
 import com.kale.surveyservice.dto.shortForm.*;
 import com.kale.surveyservice.dto.shortOption.GetShortOptionRes;
 import com.kale.surveyservice.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,15 +23,26 @@ import java.util.stream.Collectors;
 
 import static com.kale.surveyservice.common.BaseResponseStatus.*;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ShortFormService {
     private final ShortFormRepository shortFormRepository;
     private final ShortResultRepository shortResultRepository;
-
     private final ResponseServiceFeignClient responseServiceFeignClient;
+
+    public GetClientShortFormRes getClientShortFormRes(Long shortFormId) {
+        ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
+
+        return new GetClientShortFormRes(shortFormId, shortForm.getSurvey().getId(), shortForm.getMemberId(),
+                shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse());
+    }
+
+    public void incrementShortCount(Long shortFormId) {
+        ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
+        shortForm.increaseResponseCnt();
+        shortFormRepository.save(shortForm);
+    }
 
     /**
      * 짧폼 리스트 조회

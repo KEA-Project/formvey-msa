@@ -1,5 +1,6 @@
 package com.kale.surveyservice.controller;
 
+import com.kale.surveyservice.dto.client.GetClientShortFormRes;
 import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.shortForm.*;
 import com.kale.surveyservice.service.ShortFormService;
@@ -15,10 +16,30 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/survey-service/shortforms")
+@RequestMapping("/survey-service/shortForms")
 public class ShortFormController {
     private final ShortFormService shortFormService;
 
+    /**
+     * 짧폼 조회 (client)
+     */
+    @ResponseBody
+    @GetMapping("/{shortFormId}")
+    private BaseResponse<GetClientShortFormRes> getShortFormById(@PathVariable Long shortFormId) {
+        GetClientShortFormRes getClientShortFormRes = shortFormService.getClientShortFormRes(shortFormId);
+
+        return new BaseResponse<>(getClientShortFormRes);
+    }
+
+    /**
+     * 짧폼 응답 수 증가
+     */
+    @ResponseBody
+    @PatchMapping("/increment-cnt/{shortFormId}")
+    private void incrementShortCount(@PathVariable Long shortFormId) {
+        shortFormService.incrementShortCount(shortFormId);
+
+    }
     /**
      * 짧폼 리스트 조회
      * [GET] /shortForms/board/{memberId}

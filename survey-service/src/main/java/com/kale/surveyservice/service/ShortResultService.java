@@ -44,7 +44,7 @@ public class ShortResultService {
             throw new BaseException( SHORTFORMS_LACKING_POINT);
         } else {
             //멤버 서비스로 포인트 차감 api 요청
-           String reduce=memberServiceFeignClient.modifyPoint(memberId).getResult();
+           String reduce = memberServiceFeignClient.modifyPoint(memberId).getResult();
         }
         // 짧폼 해금
         shortResultRepository.save(PostShortResultReq.toEntity(memberId, shortForm));

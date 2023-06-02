@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/survey-service/survey")
+@RequestMapping("/survey-service/surveys")
 public class SurveyController {
     private final SurveyService surveyService;
     private final ResponseServiceFeignClient responseServiceFeignClient;
@@ -51,12 +51,14 @@ public class SurveyController {
      * 질문 조회 (client)
      */
     @ResponseBody
-    @GetMapping("/surveys/questions/{surveyId}")
+    @GetMapping("/questions/{surveyId}")
     private BaseResponse<GetQuestionRes> getQuestionBySurveyId(@PathVariable Long surveyId) {
         GetQuestionRes getQuestionRes = surveyService.getQuestionBySurveyId(surveyId);
 
         return new BaseResponse<>(getQuestionRes);
     }
+
+
     /**
      * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장 ) / status = 2 -> 짧폼등록 o
      * [POST] /surveys/create

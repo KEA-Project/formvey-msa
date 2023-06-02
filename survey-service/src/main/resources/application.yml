@@ -6,9 +6,9 @@ spring:
     name: survey-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/surveydb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/surveyDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: sh0908!!
+    password: dltmdgml12!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   mvc:
