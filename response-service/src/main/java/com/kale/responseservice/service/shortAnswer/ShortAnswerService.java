@@ -61,7 +61,10 @@ public class ShortAnswerService {
      * 짧폼에 이미 응답 했는지 여부 (설문 client)
      */
     public int existShortResponse(Long memberId, Long shortformId) {
-        int result=shortAnswerRepository.findexistById(memberId, shortformId);
+        int result=1;
+        if(shortAnswerRepository.findExistById(memberId, shortformId).equals(false)){
+            result=0;
+        }
         return result;
     }
 }
