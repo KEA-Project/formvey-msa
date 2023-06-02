@@ -16,8 +16,8 @@ public class SwaggerConfig {
     }
     private Info apiInfo() {
         return new Info()
-                .title("Member Service")
-                .description("member service api documentation")
+                .title("Response Service")
+                .description("response service api documentation")
                 .version("1.0.0");
     }
 }

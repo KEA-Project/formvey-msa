@@ -16,9 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PostSurveyReq {
-
     private Long memberId;
-
     private String surveyTitle;
     private String surveyContent;
     private LocalDateTime startDate;
