@@ -11,15 +11,12 @@ import com.kale.surveyservice.dto.client.GetChoiceRes;
 import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.question.GetQuestionInfoRes;
 import com.kale.surveyservice.dto.question.PostQuestionReq;
-import com.kale.surveyservice.dto.response.GetResponseListRes;
-import com.kale.surveyservice.dto.response.GetShortResponseListRes;
 import com.kale.surveyservice.dto.shortForm.PostShortFormReq;
 import com.kale.surveyservice.dto.shortOption.PostShortOptionReq;
 import com.kale.surveyservice.dto.survey.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import com.kale.surveyservice.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -167,9 +164,14 @@ public class SurveyService {
     /**
      * 설문 삭제
      */
-    public void deleteSurvey(Long surveyId) {
+    public String deleteSurvey(Long surveyId) {
         Survey survey = surveyRepository.findById(surveyId).get();
         surveyRepository.delete(survey); //설문과 관련된 모든 것 삭제
+
+        //응답 서비스로 요청
+        String result =responseServiceFeignClient.deleteResponses(surveyId).getResult();
+
+        return result;
     }
 
     /**
@@ -263,12 +265,12 @@ public class SurveyService {
         getSurveyChartRes.setCreateSurveyCnt(surveyRepository.findByMemberId(memberId).size()); // 제작 설문 수
 
         //응답 서비스 조회 요청
-        List<GetResponseListRes> getResponseListRes=responseServiceFeignClient.getResCount(memberId).getResult();
-        getSurveyChartRes.setResponseCnt(getResponseListRes.size());
+        int resCount= responseServiceFeignClient.getResCount(memberId).getResult();
+        getSurveyChartRes.setResponseCnt(resCount);
 
         //숏폼 응답 서비스 조회 요청
-        List<GetShortResponseListRes> getShortResponseListRes=responseServiceFeignClient.getShortResCount(memberId).getResult();
-        getSurveyChartRes.setShortFormResponseCnt(getShortResponseListRes.size());
+        int shortResCount=responseServiceFeignClient.getShortResCount(memberId).getResult();
+        getSurveyChartRes.setShortFormResponseCnt(shortResCount);
         getSurveyChartRes.setUnReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 1).size());
         getSurveyChartRes.setReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 2).size());
         getSurveyChartRes.setClosedSurveyCnt(surveyRepository.findAllByStatus(memberId, 3).size());

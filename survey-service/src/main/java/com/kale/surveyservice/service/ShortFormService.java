@@ -5,7 +5,6 @@ import com.kale.surveyservice.client.ResponseServiceFeignClient;
 import com.kale.surveyservice.common.BaseException;
 import com.kale.surveyservice.domain.*;
 import com.kale.surveyservice.dto.client.GetClientShortFormRes;
-import com.kale.surveyservice.dto.response.GetShortResponseListRes;
 import com.kale.surveyservice.dto.shortForm.*;
 import com.kale.surveyservice.dto.shortOption.GetShortOptionRes;
 import com.kale.surveyservice.repository.*;
@@ -93,10 +92,16 @@ public class ShortFormService {
      * 짧폼 메인 조회
      */
     public GetShortFormMainRes getShortFormMain(Long memberId) {
+        ShortForm shortForm = shortFormRepository.findRandom(memberId, PageRequest.of(0, 1)).stream().findFirst().orElseThrow(() -> new BaseException(DATABASE_ERROR));
 
-        List<GetShortResponseListRes> shortAnswers=responseServiceFeignClient.getShortResCount(memberId).getResult();
-        ShortForm shortForm = shortFormRepository.findRandom(memberId, PageRequest.of(0,1)).stream().findFirst().orElseThrow(() -> new BaseException(DATABASE_ERROR));
-
+        while(true) {
+            //이미 응답 했는지 응답 서비스에 api 요청
+            //짧폼 답변에 없으면
+            if(responseServiceFeignClient.existShortResponse(shortForm.getMemberId(), shortForm.getId()).getResult()==0)
+                break;
+            //내가 만든 숏폼 제외 랜덤 뽑기
+            shortForm = shortFormRepository.findRandom(memberId, PageRequest.of(0, 1)).stream().findFirst().orElseThrow(() -> new BaseException(DATABASE_ERROR));
+        }
 
         List<GetShortOptionRes> options = shortForm.getShortOptions().stream()
                 .map(shortOption -> new GetShortOptionRes(shortOption.getId(), shortOption.getShortIndex(), shortOption.getShortContent()))

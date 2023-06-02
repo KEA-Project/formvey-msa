@@ -37,7 +37,7 @@ public class MemberController {
      * 멤버 포인트 증가
      */
     @ResponseBody
-    @PatchMapping("/members/increment-point/{memberId}")
+    @PatchMapping("/increment-point/{memberId}")
     private void incrementPoint(@PathVariable Long memberId, int point) {
         memberService.incrementPoint(memberId, point);
     }

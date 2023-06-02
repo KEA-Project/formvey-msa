@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
     Page<ShortForm> findAll(Pageable pageable);
 
-    //포함 안 되어있는 거 찾기 위한것
+    //내가 만든 설문 제외
     @Query("SELECT sf FROM ShortForm sf WHERE sf.memberId <> ?1 ORDER BY FUNCTION('RAND')")
     Page<ShortForm> findRandom(Long memberId, Pageable pageable);
 
