@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/member-service")
+@RequestMapping("/member-service/members")
 public class MemberController {
     private final Environment env;
     private final MemberService memberService;
@@ -189,7 +189,7 @@ public class MemberController {
      * @return BaseResponse<GetMemberInfoSubRes>
      */
     @ResponseBody
-    @GetMapping("/members/info/sub/{memberId}")
+    @GetMapping("/info/sub/{memberId}")
     @Operation(summary = "설문 서비스에서 요청하는 회원 정보 api")
     @Parameter(name = "memberId",  description = "조회할 유저 인덱스", required = true)
     @ApiResponses({
@@ -208,7 +208,7 @@ public class MemberController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @GetMapping("/members/point/{memberId}")
+    @GetMapping("/point/{memberId}")
     @Operation(summary = "설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api")
     @Parameter(name = "memberId",  description = "포인트 차감할 유저 인덱스", required = true)
     @ApiResponses({
