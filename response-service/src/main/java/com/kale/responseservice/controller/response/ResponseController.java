@@ -81,6 +81,20 @@ public class ResponseController {
     }
 
     /**
+     * 응답 삭제 (설문 client)
+     * [DELETE] /responses/delete/{surveyId}
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/delete/{surveyId}")
+    @Operation(summary = "응답 삭제(설문 서비스에서 요청)")
+    public BaseResponse<String> deleteResponses(@PathVariable Long surveyId) {
+        responseService.deleteClientResponse(surveyId);
+        String result = "응답이 삭제되었습니다.";
+        return new BaseResponse<>(result);
+    }
+
+    /**
      * 응답 삭제
      * [PATCH] /responses/delete/{responseId}
      * @return BaseResponse<String>
@@ -104,6 +118,19 @@ public class ResponseController {
         String result = "응답이 삭제되었습니다.";
 
         return new BaseResponse<>(result);
+    }
+
+    /**
+     * 응답 개수 조회 (설문 client)
+     * [GET] /responses/list/count/{memberId}
+     * @return BaseResponse<Integer>
+     */
+    @ResponseBody
+    @GetMapping("/list/count/{memberId}")
+    @Operation(summary = "응답 개수 조회(설문 서비스에서 요청)")
+    public BaseResponse<Integer> getResCount(@PathVariable Long memberId) {
+        int count = responseService.getResponseListCount(memberId);
+        return new BaseResponse<>(count);
     }
 
 
@@ -147,6 +174,21 @@ public class ResponseController {
 
         return new BaseResponse<>(getResponseInfoRes);
     }
+
+    /**
+     * 제작 설문 개별 응답 정보 조회 (client 요청)
+     * [GET] /responses/list/info/{surveyId}
+     * @return BaseResponse<List<GetResponseIndividualRes>>
+     */
+    @ResponseBody
+    @GetMapping("/list/info/{surveyId}")
+    @Operation(summary = "제작 설문 개별 응답 정보 조회(설문 서비스에서 요청)")
+    public BaseResponse<List<GetResponseListInfoRes>> getResListInfo(@PathVariable Long surveyId) {
+        List<GetResponseListInfoRes> getResponseIndividualInfoRes = responseService.getResponseIndividualInfo(surveyId);
+
+        return new BaseResponse<>(getResponseIndividualInfoRes);
+    }
+
     /**
      * 제작 설문 개별 응답 조회
      * [GET] /responses/Individual/{surveyId}

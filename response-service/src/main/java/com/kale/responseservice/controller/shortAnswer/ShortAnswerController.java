@@ -47,4 +47,30 @@ public class ShortAnswerController {
 
     }
 
+    /**
+     * 답변한 짧폼 개수 (client 요청)
+     * [GET] /shortanswers/list/count/{memberId}
+     * @return BaseResponse<Integer>
+     */
+    @ResponseBody
+    @GetMapping("/list/count/{memberId}")
+    @Operation(summary = "짧폼 응답 개수 조회 (설문 서비스에서 요청)")
+    public BaseResponse<Integer> getShortResCount(@PathVariable Long memberId) {
+        int count = shortAnswerService.getShortResponseListCount(memberId);
+
+        return new BaseResponse<>(count);
+    }
+
+    /**
+     * 짧폼에 이미 응답 했는지 여부 (client 요청)
+     * [GET] /shortanswers/exist/{memberId}/{shortformId}
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @GetMapping("/exist/{memberId}/{shortformId}")
+    @Operation(summary = "짧폼에 이미 응답 했는지 여부 (설문 서비스에서 요청)")
+    public BaseResponse<Integer> existShortResponse(@PathVariable Long memberId, @PathVariable Long shortformId) {
+        int result = shortAnswerService.existShortResponse(memberId, shortformId);
+        return new BaseResponse<>(result);
+    }
 }

@@ -48,4 +48,20 @@ public class ShortAnswerService {
         int point = dto.getPoint();
         memberServiceClient.incrementPoint(memberId, point);
     }
+
+    /**
+     * 짧폼 응답 개수 조회 (설문 client)
+     */
+    public int getShortResponseListCount(Long memberId) {
+        int totalPageCnt = shortAnswerRepository.findByMemberId(memberId).size();
+        return totalPageCnt;
+    }
+
+    /**
+     * 짧폼에 이미 응답 했는지 여부 (설문 client)
+     */
+    public int existShortResponse(Long memberId, Long shortformId) {
+        int result=shortAnswerRepository.findexistById(memberId, shortformId);
+        return result;
+    }
 }

@@ -90,6 +90,17 @@ public class ResponseService {
     }
 
     /**
+     * 응답 삭제 (설문 client)
+     */
+    public void deleteClientResponse(Long surveyId) {
+        //status 0으로 변경
+        List<Response> response=responseRepository.findBySurveyId(surveyId);
+        for(int i=0;i<response.size();i++) {
+            responseRepository.delete(response.get(i));
+        }
+    }
+
+    /**
      * 응답 삭제
      */
     public void deleteResponse(Long responseId) {
@@ -97,6 +108,14 @@ public class ResponseService {
         Response response=responseRepository.findById(responseId).get();
         response.updateStatus(0);
         responseRepository.save(response);
+    }
+
+    /**
+     * 응답 개수 조회 (설문 client)
+     */
+    public int getResponseListCount(Long memberId) {
+        int totalPageCnt = responseRepository.findAllByMemberId(memberId).size();
+        return totalPageCnt;
     }
 
     /**
@@ -171,6 +190,20 @@ public class ResponseService {
 
         return dto;
     }
+
+    /**
+     * 제작 설문 개별 응답 정보 조회 (client 요청)
+     */
+    public List<GetResponseListInfoRes> getResponseIndividualInfo(Long surveyId) {
+        List<Response> responses=responseRepository.findBySurveyId(surveyId);
+        List<GetResponseListInfoRes> getResponseListInfoRes=new ArrayList<>();
+
+        for (Response response : responses) {
+            getResponseListInfoRes.add(new GetResponseListInfoRes(response.getId(), response.getMemberId()));
+        }
+        return getResponseListInfoRes;
+    }
+
     /**
      * 개별 응답 조회
      */
