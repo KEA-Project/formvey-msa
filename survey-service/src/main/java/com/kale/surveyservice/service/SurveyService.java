@@ -265,11 +265,11 @@ public class SurveyService {
         getSurveyChartRes.setCreateSurveyCnt(surveyRepository.findByMemberId(memberId).size()); // 제작 설문 수
 
         //응답 서비스 조회 요청
-        int resCount= responseServiceFeignClient.getResCount(memberId).getResult();
+        int resCount= responseServiceFeignClient.getResCount(memberId).getResult().size();
         getSurveyChartRes.setResponseCnt(resCount);
 
         //숏폼 응답 서비스 조회 요청
-        int shortResCount=responseServiceFeignClient.getShortResCount(memberId).getResult();
+        int shortResCount=responseServiceFeignClient.getShortResCount(memberId).getResult().size();
         getSurveyChartRes.setShortFormResponseCnt(shortResCount);
         getSurveyChartRes.setUnReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 1).size());
         getSurveyChartRes.setReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 2).size());

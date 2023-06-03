@@ -1,8 +1,7 @@
 package com.kale.responseservice.controller.response;
 
-import com.kale.responseservice.client.MemberServiceClient;
-import com.kale.responseservice.client.SurveyServiceClient;
 import com.kale.responseservice.common.BaseResponse;
+import com.kale.responseservice.dto.client.GetResponseCountRes;
 import com.kale.responseservice.dto.response.*;
 import com.kale.responseservice.service.response.ResponseService;
 import io.swagger.v3.oas.annotations.*;
@@ -123,14 +122,14 @@ public class ResponseController {
     /**
      * 응답 개수 조회 (설문 client)
      * [GET] /responses/list/count/{memberId}
-     * @return BaseResponse<Integer>
+     * @return BaseResponse<List<GetResponseCountRes>>
      */
     @ResponseBody
     @GetMapping("/list/count/{memberId}")
     @Operation(summary = "응답 개수 조회(설문 서비스에서 요청)")
-    public BaseResponse<Integer> getResCount(@PathVariable Long memberId) {
-        int count = responseService.getResponseListCount(memberId);
-        return new BaseResponse<>(count);
+    public BaseResponse<List<GetResponseCountRes>> getResCount(@PathVariable Long memberId) {
+        List<GetResponseCountRes> getResponseCountRes = responseService.getResponseListCount(memberId);
+        return new BaseResponse<>(getResponseCountRes);
     }
 
 

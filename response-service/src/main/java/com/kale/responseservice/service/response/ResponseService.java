@@ -113,9 +113,14 @@ public class ResponseService {
     /**
      * 응답 개수 조회 (설문 client)
      */
-    public int getResponseListCount(Long memberId) {
-        int totalPageCnt = responseRepository.findAllByMemberId(memberId).size();
-        return totalPageCnt;
+    public List<GetResponseCountRes> getResponseListCount(Long memberId) {
+        List<Response> responses = responseRepository.findAllByMemberId(memberId);
+        List<GetResponseCountRes> getResponseCountRes=new ArrayList<>();
+
+        for (Response response : responses) {
+            getResponseCountRes.add(new GetResponseCountRes(response.getId()));
+        }
+        return getResponseCountRes;
     }
 
     /**

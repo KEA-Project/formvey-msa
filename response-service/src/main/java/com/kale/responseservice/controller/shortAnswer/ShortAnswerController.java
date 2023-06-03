@@ -1,6 +1,7 @@
 package com.kale.responseservice.controller.shortAnswer;
 
 import com.kale.responseservice.common.BaseResponse;
+import com.kale.responseservice.dto.client.GetShortResponseCountRes;
 import com.kale.responseservice.dto.shortAnswer.PostShortAnswerReq;
 import com.kale.responseservice.service.shortAnswer.ShortAnswerService;
 import io.swagger.v3.oas.annotations.*;
@@ -8,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -50,15 +53,15 @@ public class ShortAnswerController {
     /**
      * 답변한 짧폼 개수 (client 요청)
      * [GET] /shortanswers/list/count/{memberId}
-     * @return BaseResponse<Integer>
+     * @return BaseResponse<List<GetShortResponseCountRes>>
      */
     @ResponseBody
     @GetMapping("/list/count/{memberId}")
     @Operation(summary = "짧폼 응답 개수 조회 (설문 서비스에서 요청)")
-    public BaseResponse<Integer> getShortResCount(@PathVariable Long memberId) {
-        int count = shortAnswerService.getShortResponseListCount(memberId);
+    public BaseResponse<List<GetShortResponseCountRes>> getShortResCount(@PathVariable Long memberId) {
+        List<GetShortResponseCountRes> getShortResponseCountRes = shortAnswerService.getShortResponseListCount(memberId);
 
-        return new BaseResponse<>(count);
+        return new BaseResponse<>(getShortResponseCountRes);
     }
 
     /**
@@ -69,8 +72,8 @@ public class ShortAnswerController {
     @ResponseBody
     @GetMapping("/exist/{memberId}/{shortformId}")
     @Operation(summary = "짧폼에 이미 응답 했는지 여부 (설문 서비스에서 요청)")
-    public BaseResponse<Integer> existShortResponse(@PathVariable Long memberId, @PathVariable Long shortformId) {
-        int result = shortAnswerService.existShortResponse(memberId, shortformId);
+    public BaseResponse<String> existShortResponse(@PathVariable Long memberId, @PathVariable Long shortformId) {
+        String result = shortAnswerService.existShortResponse(memberId, shortformId);
         return new BaseResponse<>(result);
     }
 }

@@ -3,9 +3,12 @@ package com.kale.responseservice.service.shortAnswer;
 import com.kale.responseservice.client.MemberServiceClient;
 import com.kale.responseservice.client.SurveyServiceClient;
 import com.kale.responseservice.common.BaseException;
+import com.kale.responseservice.domain.Response;
 import com.kale.responseservice.domain.ShortAnswer;
 import com.kale.responseservice.dto.client.GetClientShortFormRes;
 import com.kale.responseservice.dto.client.GetMemberRes;
+import com.kale.responseservice.dto.client.GetResponseCountRes;
+import com.kale.responseservice.dto.client.GetShortResponseCountRes;
 import com.kale.responseservice.dto.shortAnswer.PostShortAnswerReq;
 import com.kale.responseservice.repository.ShortAnswerRepository;
 import jakarta.transaction.Transactional;
@@ -52,18 +55,23 @@ public class ShortAnswerService {
     /**
      * 짧폼 응답 개수 조회 (설문 client)
      */
-    public int getShortResponseListCount(Long memberId) {
-        int totalPageCnt = shortAnswerRepository.findByMemberId(memberId).size();
-        return totalPageCnt;
+    public List<GetShortResponseCountRes> getShortResponseListCount(Long memberId) {
+        List<ShortAnswer> responses = shortAnswerRepository.findByMemberId(memberId);
+        List<GetShortResponseCountRes> getShortResponseCountRes=new ArrayList<>();
+
+        for (ShortAnswer shortAnswer : responses) {
+            getShortResponseCountRes.add(new GetShortResponseCountRes(shortAnswer.getId()));
+        }
+        return getShortResponseCountRes;
     }
 
     /**
      * 짧폼에 이미 응답 했는지 여부 (설문 client)
      */
-    public int existShortResponse(Long memberId, Long shortformId) {
-        int result=1;
+    public String existShortResponse(Long memberId, Long shortformId) {
+        String result="exist";
         if(shortAnswerRepository.findExistById(memberId, shortformId).equals(false)){
-            result=0;
+            result="none";
         }
         return result;
     }
