@@ -26,7 +26,7 @@ public class ResponseController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PostMapping("/{surveyId}/{memberId}")
+    @PostMapping("/{surveyId}")
     @Operation(summary = "설문 응답", description = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
     @Parameter(name = "surveyId", description = "응답할 설문 인덱스", required = true)
     @ApiResponses({

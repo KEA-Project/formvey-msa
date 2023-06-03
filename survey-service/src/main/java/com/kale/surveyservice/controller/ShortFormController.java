@@ -25,6 +25,7 @@ public class ShortFormController {
      */
     @ResponseBody
     @GetMapping("/{shortFormId}")
+    @Operation(summary = "짧폼 조회(응답 서비스에서 요청)")
     private BaseResponse<GetClientShortFormRes> getShortFormById(@PathVariable Long shortFormId) {
         GetClientShortFormRes getClientShortFormRes = shortFormService.getClientShortFormRes(shortFormId);
 
@@ -35,7 +36,8 @@ public class ShortFormController {
      * 짧폼 응답 수 증가
      */
     @ResponseBody
-    @PatchMapping("/increment-cnt/{shortFormId}")
+    @GetMapping("/increment-cnt/{shortFormId}")
+    @Operation(summary = "짧폼 응답 수 증가(응답 서비스에서 요청)")
     private void incrementShortCount(@PathVariable Long shortFormId) {
         shortFormService.incrementShortCount(shortFormId);
 

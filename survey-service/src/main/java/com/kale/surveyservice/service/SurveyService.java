@@ -59,16 +59,21 @@ public class SurveyService {
         surveyRepository.save(survey);
     }
 
-    public GetQuestionRes getQuestionBySurveyId(Long surveyId) {
-        Question question = questionRepository.findById(surveyId).get();
-        List<Choice> choices = choiceRepository.findByQuestionId(question.getId());
-        List<GetChoiceRes> choicesDto = new ArrayList<>();
-        for (Choice c : choices) {
-            choicesDto.add(new GetChoiceRes(c.getId(), c.getQuestion().getId(), c.getChoiceIndex(), c.getChoiceContent()));
+    public List<GetQuestionRes> getQuestionBySurveyId(Long surveyId) {
+        List<Question> questions = questionRepository.findBySurveyId(surveyId);
+        List<GetQuestionRes> questionsDto = new ArrayList<>();
+        for (Question q : questions) {
+            List<Choice> choices = choiceRepository.findByQuestionId(q.getId());
+            List<GetChoiceRes> choicesDto = new ArrayList<>();
+
+            for (Choice c : choices) {
+                choicesDto.add(new GetChoiceRes(c.getId(), c.getQuestion().getId(), c.getChoiceIndex(), c.getChoiceContent()));
+            }
+            questionsDto.add(new GetQuestionRes(q.getId(), q.getSurvey().getId(), q.getQuestionIdx(),
+                    q.getQuestionTitle(), q.getType(), q.getIsEssential(), q.getIsShort(),
+                    choicesDto));
         }
-        return new GetQuestionRes(question.getId(), question.getSurvey().getId(), question.getQuestionIdx(),
-                question.getQuestionTitle(), question.getType(), question.getIsEssential(), question.getIsShort(),
-                choicesDto);
+        return questionsDto;
     }
 
     /**
