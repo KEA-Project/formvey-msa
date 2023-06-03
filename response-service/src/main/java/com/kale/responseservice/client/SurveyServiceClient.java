@@ -23,7 +23,7 @@ public interface SurveyServiceClient {
     BaseResponse<List<GetQuestionRes>> getQuestionBySurveyId(@PathVariable Long surveyId);
 
     // 설문 응답 수 증가
-    @RequestMapping(method = RequestMethod.PATCH, value = "/surveys/increment-cnt/{surveyId}", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/surveys/increment-cnt/{surveyId}", consumes = "application/json")
     void incrementCount(@PathVariable Long surveyId);
 
     // 짧폼 조회
@@ -31,7 +31,7 @@ public interface SurveyServiceClient {
     BaseResponse<GetClientShortFormRes> getShortFormById(@PathVariable Long shortFormId);
 
     // 짧폼 응답 수 증가
-    @RequestMapping(method = RequestMethod.PATCH, value = "/shortForms/increment-cnt/{shortFormId}", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/shortForms/increment-cnt/{shortFormId}", consumes = "application/json")
     void incrementShortCount(@PathVariable Long shortFormId);
 
     // 짧폼아이디로 설문 조회

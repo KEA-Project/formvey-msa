@@ -23,7 +23,6 @@ import java.util.List;
 @RequestMapping("/survey-service/surveys")
 public class SurveyController {
     private final SurveyService surveyService;
-    private final ResponseServiceFeignClient responseServiceFeignClient;
 
     //private final JwtService jwtService;
 
@@ -31,7 +30,8 @@ public class SurveyController {
      * 설문 조회 (client)
      */
     @ResponseBody
-    @PatchMapping("/{surveyId}")
+    @GetMapping("/{surveyId}")
+    @Operation(summary = "설문 조회(응답 서비스에서 요청)")
     private BaseResponse<GetSurveyRes> getSurveyById(@PathVariable Long surveyId) {
         GetSurveyRes getSurveyRes = surveyService.getSurveyById(surveyId);
 
@@ -42,7 +42,8 @@ public class SurveyController {
      * 설문 응답 수 증가 (client)
      */
     @ResponseBody
-    @PatchMapping("/increment-cnt/{surveyId}")
+    @GetMapping("/increment-cnt/{surveyId}")
+    @Operation(summary = "설문 응답 수 증가(응답 서비스에서 요청)")
     private void incrementCount(@PathVariable Long surveyId) {
         surveyService.incrementCount(surveyId);
     }
@@ -52,8 +53,9 @@ public class SurveyController {
      */
     @ResponseBody
     @GetMapping("/questions/{surveyId}")
-    private BaseResponse<GetQuestionRes> getQuestionBySurveyId(@PathVariable Long surveyId) {
-        GetQuestionRes getQuestionRes = surveyService.getQuestionBySurveyId(surveyId);
+    @Operation(summary = "질문 조회(응답 서비스에서 요청)")
+    private BaseResponse<List<GetQuestionRes>> getQuestionBySurveyId(@PathVariable Long surveyId) {
+        List<GetQuestionRes> getQuestionRes = surveyService.getQuestionBySurveyId(surveyId);
 
         return new BaseResponse<>(getQuestionRes);
     }

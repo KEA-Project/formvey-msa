@@ -128,7 +128,7 @@ public class ResponseService {
      */
     public GetResponseList getResponseList(Long memberId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
-        Page<Response> res = responseRepository.findAllByMemberId(memberId,pageRequest);
+        Page<Response> res = responseRepository.findAllByMemberId(memberId, pageRequest);
         GetResponseList responses = new GetResponseList();
         List<GetSurveyRes> releasedSurveys = new ArrayList<>(); // 배포 중인 설문 모음
         List<GetSurveyRes> closedSurveys = new ArrayList<>(); // 마감된 설문 모음

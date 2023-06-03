@@ -37,8 +37,9 @@ public class MemberController {
      * 멤버 포인트 증가
      */
     @ResponseBody
-    @PatchMapping("/increment-point/{memberId}")
-    private void incrementPoint(@PathVariable Long memberId, int point) {
+    @GetMapping("/increment-point/{memberId}")
+    @Operation(summary = "멤버 포인트 증가(응답 서비스에서 요청)")
+    private void incrementPoint(@PathVariable Long memberId, @RequestParam("point") int point) {
         memberService.incrementPoint(memberId, point);
     }
 
@@ -190,7 +191,7 @@ public class MemberController {
      */
     @ResponseBody
     @GetMapping("/info/sub/{memberId}")
-    @Operation(summary = "설문 서비스에서 요청하는 회원 정보 api")
+    @Operation(summary = "설문 서비스에서 요청하는 회원 정보 api(설문 서비스에서 요청)")
     @Parameter(name = "memberId",  description = "조회할 유저 인덱스", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "2010", description = "유저 아이디 값을 확인해주세요."),
@@ -209,7 +210,7 @@ public class MemberController {
      */
     @ResponseBody
     @GetMapping("/point/{memberId}")
-    @Operation(summary = "설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api")
+    @Operation(summary = "설문 서비스에서 짧폼 해금 시 보내는 포인트 차감 api(설문 서비스에서 요청)")
     @Parameter(name = "memberId",  description = "포인트 차감할 유저 인덱스", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "2010", description = "유저 아이디 값을 확인해주세요."),
