@@ -3,6 +3,7 @@ package com.kale.responseservice.controller.shortAnswer;
 import com.kale.responseservice.common.BaseResponse;
 import com.kale.responseservice.dto.client.GetShortResponseCountRes;
 import com.kale.responseservice.dto.shortAnswer.PostShortAnswerReq;
+import com.kale.responseservice.service.JwtService;
 import com.kale.responseservice.service.shortAnswer.ShortAnswerService;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.kale.responseservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/response-service/shortanswers")
 public class ShortAnswerController {
     private final ShortAnswerService shortAnswerService;
-//    private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 짧폼 답변
@@ -37,12 +40,12 @@ public class ShortAnswerController {
     })
     private BaseResponse<String> responseShortAnswer(@RequestBody PostShortAnswerReq dto,
                                                      @PathVariable Long shortFormId, @PathVariable Long memberId) {
-//            //jwt에서 idx 추출.
-//            Long memberIdByJwt = jwtService.getUserIdx();
-//            //memberId와 접근한 유저가 같은지 확인
-//            if(memberId!= memberIdByJwt){
-//                return new BaseResponse<>(INVALID_USER_JWT);
-//            }
+            //jwt에서 idx 추출.
+            Long memberIdByJwt = jwtService.getUserIdx();
+            //memberId와 접근한 유저가 같은지 확인
+            if(memberId!= memberIdByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             shortAnswerService.responseShortAnswer(dto, shortFormId, memberId);
             String result = "응답이 등록되었습니다";
 

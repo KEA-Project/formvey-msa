@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import static com.kale.memberservice.common.BaseResponseStatus.*;
 
@@ -24,7 +25,7 @@ import static com.kale.memberservice.common.BaseResponseStatus.*;
 public class AuthService {
     private final MemberRepository memberRepository;
 
-//    private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 이메일 로그인 및 jwt 생성
@@ -42,9 +43,10 @@ public class AuthService {
         Member member = memberRepository.findByEmail(dto.getEmail()).get();
         member.updateStatus(1);
         memberRepository.save(member);
-//        String jwt = jwtService.createJwt(member.getId());
+        String jwt = jwtService.createJwt(member.getId());
+        String ref = jwtService.createRef(member.getId());
 
-        return new PostLoginRes(member.getId());
+        return new PostLoginRes(member.getId(), jwt, System.currentTimeMillis()+1*(1000*60*30), ref);
     }
 
     /**
@@ -61,10 +63,11 @@ public class AuthService {
             Member member = PostMemberReq.toEntity(info);
             member = memberRepository.save(member);
 
-//            // jwt 생성 후 반환
-//            String jwt = jwtService.createJwt(member.getId());
+            // jwt 생성 후 반환
+            String jwt = jwtService.createJwt(member.getId());
+            String ref = jwtService.createRef(member.getId());
 
-            return new PostLoginRes(member.getId());
+            return new PostLoginRes(member.getId(), jwt, System.currentTimeMillis()+1*(1000*60*30), ref);
         }
 
         // 존재하는 이메일이면 로그인 진행
@@ -73,9 +76,10 @@ public class AuthService {
         member.updateStatus(1);
         memberRepository.save(member);
 
-//        String jwt = jwtService.createJwt(member.getId());
+        String jwt = jwtService.createJwt(member.getId());
+        String ref = jwtService.createRef(member.getId());
 
-        return new PostLoginRes(member.getId());
+        return new PostLoginRes(member.getId(), jwt, System.currentTimeMillis()+1*(1000*60*30), ref);
     }
 
     /**

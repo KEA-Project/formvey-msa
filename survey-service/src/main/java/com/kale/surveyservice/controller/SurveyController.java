@@ -5,6 +5,7 @@ import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.client.GetQuestionRes;
 import com.kale.surveyservice.dto.client.GetSurveyRes;
 import com.kale.surveyservice.dto.survey.*;
+import com.kale.surveyservice.service.JwtService;
 import com.kale.surveyservice.service.SurveyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import static com.kale.surveyservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -24,7 +27,7 @@ import java.util.List;
 public class SurveyController {
     private final SurveyService surveyService;
 
-    //private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 설문 조회 (client)
@@ -79,7 +82,7 @@ public class SurveyController {
             @ApiResponse(responseCode = "2034", description = "설문 종료 날짜를 등록해주세요.")
     })
     private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status) {
-        //Long memberId = jwtService.getUserIdx();
+        Long memberId = jwtService.getUserIdx();
         PostSurveyRes postSurveyRes = surveyService.createSurvey(dto, status);
 
         return new BaseResponse<>(postSurveyRes);
@@ -126,12 +129,12 @@ public class SurveyController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<String> deleteSurvey(@PathVariable Long surveyId, @RequestBody DeleteSurveyReq deleteSurveyReq) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (deleteSurveyReq.getMemberId() != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (deleteSurveyReq.getMemberId() != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         String result = surveyService.deleteSurvey(surveyId);
 
         return new BaseResponse<>(result);
@@ -166,12 +169,12 @@ public class SurveyController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<GetSurveyList> getSurveyList(@PathVariable Long memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         GetSurveyList getSurveyList = surveyService.getSurveyList(memberId,page,size);
 
         return new BaseResponse<>(getSurveyList);
@@ -195,7 +198,7 @@ public class SurveyController {
     })
     public BaseResponse<GetSurveyInfoRes> getSurveyInfo(@PathVariable Long surveyId) {
         //jwt에서 idx 추출.
-        //Long memberIdByJwt = jwtService.getUserIdx();
+        Long memberIdByJwt = jwtService.getUserIdx();
 
         GetSurveyInfoRes getSurveyInfoRes = surveyService.getSurveyInfo(surveyId);
 
@@ -216,12 +219,12 @@ public class SurveyController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     private BaseResponse<GetSurveyChartRes> getSurveyChart(@PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         GetSurveyChartRes getSurveyChartRes = surveyService.getSurveyChart(memberId);
 
         return new BaseResponse<>(getSurveyChartRes);

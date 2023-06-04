@@ -1,5 +1,6 @@
 package com.kale.surveyservice.controller;
 
+import com.kale.responseservice.service.JwtService;
 import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.userReward.GetUserRewardListRes;
 import com.kale.surveyservice.dto.userReward.PostRandomRewardReq;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.kale.surveyservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -23,7 +26,7 @@ import java.util.List;
 @RequestMapping("/survey-service/rewards")
 public class UserRewardController {
     private final UserRewardService userRewardService;
-    //private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 랜덤 발송
@@ -41,7 +44,7 @@ public class UserRewardController {
     })
     private BaseResponse<String> randomReward(@RequestBody PostRandomRewardReq dto, @PathVariable Long surveyId) {
         //jwt에서 idx 추출.
-        //Long memberIdByJwt = jwtService.getUserIdx();
+        Long memberIdByJwt = jwtService.getUserIdx();
         userRewardService.randomReward(dto, surveyId);
 
         String result = "리워드가 전송되었습니다.";
@@ -63,7 +66,7 @@ public class UserRewardController {
     })
     private BaseResponse<String> selectReward(@RequestBody PostSelectRewardReq dto) {
         //jwt에서 idx 추출.
-        //Long memberIdByJwt = jwtService.getUserIdx();
+        Long memberIdByJwt = jwtService.getUserIdx();
         userRewardService.selectReward(dto);
 
         String result = "리워드가 전송되었습니다.";
@@ -85,12 +88,12 @@ public class UserRewardController {
             @ApiResponse(responseCode = "2003", description= "권한이 없는 유저의 접근입니다.")
     })
     private BaseResponse<List<GetUserRewardListRes>> myReward(@PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         List<GetUserRewardListRes> getUserRewardListRes=userRewardService.myReward(memberId);
 
         return new BaseResponse<>(getUserRewardListRes);

@@ -3,6 +3,7 @@ package com.kale.memberservice.controller;
 import com.kale.memberservice.common.BaseResponse;
 import com.kale.memberservice.dto.*;
 import com.kale.memberservice.service.AuthService;
+import com.kale.memberservice.service.JwtService;
 import com.kale.memberservice.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import static com.kale.memberservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class MemberController {
     private final Environment env;
     private final MemberService memberService;
     private final AuthService authService;
+
+    private final JwtService jwtService;
 
     @GetMapping("/check")
     public String check(HttpServletRequest request) {
@@ -63,6 +68,20 @@ public class MemberController {
     }
 
     /**
+     * 회원 정보 조회 (client 요청)
+     * [GET] /members/res/info/{memberId}
+     * @return BaseResponse<GetMemberRes>
+     */
+    @ResponseBody
+    @GetMapping("/res/info/{memberId}")
+    @Operation(summary = "회원 정보 조회 (응답 서비스에서 요청)")
+    private BaseResponse<GetMemberRes> getResMemberInfo(@PathVariable Long memberId) {
+        GetMemberRes getMemberRes = memberService.getMemberInfo(memberId);
+
+        return new BaseResponse<>(getMemberRes);
+    }
+
+    /**
      * 회원 정보 조회
      * [GET] /members/info/{memberId}
      * @return BaseResponse<GetMemberRes>
@@ -79,12 +98,12 @@ public class MemberController {
             @ApiResponse(responseCode = "4000", description = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<GetMemberRes> getMemberInfo(@PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         GetMemberRes getMemberRes = memberService.getMemberInfo(memberId);
 
         return new BaseResponse<>(getMemberRes);
@@ -107,11 +126,11 @@ public class MemberController {
             @ApiResponse(responseCode = "4000", description = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<String> editProfile(@RequestBody PatchMemberReq dto, @PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt)
-//            return new BaseResponse<>(INVALID_USER_JWT);
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt)
+            return new BaseResponse<>(INVALID_USER_JWT);
 
         memberService.editProfile(memberId, dto);
         String result = "회원 정보 수정이 완료되었습니다";
@@ -172,12 +191,12 @@ public class MemberController {
             @ApiResponse(responseCode = "4000", description = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<String> logout(@PathVariable("memberId") Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         authService.logout(memberId);
         String result = "회원 로그아웃을 완료했습니다.";
 

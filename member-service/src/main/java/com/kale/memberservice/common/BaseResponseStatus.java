@@ -23,6 +23,7 @@ public enum BaseResponseStatus {
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    PATCH_USER_STATUS(false, 2008, "유효 시간이 지나 로그아웃 처리되었습니다."),
 
     // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "존재하지 않는 이메일입니다."),

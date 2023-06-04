@@ -1,5 +1,6 @@
 package com.kale.surveyservice.controller;
 
+import com.kale.surveyservice.service.JwtService;
 import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.shortResult.GetShortResultBoardRes;
 import com.kale.surveyservice.service.ShortResultService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.kale.surveyservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -21,7 +24,7 @@ import java.util.List;
 @RequestMapping("/survey-service/shortresults")
 public class ShortResultController {
     private final ShortResultService shortResultService;
-    //private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 짧폼 해금
@@ -40,12 +43,12 @@ public class ShortResultController {
             @ApiResponse(responseCode="2052", description="짧폼을 해금하기 위한 포인트가 부족합니다.")
     })
     private BaseResponse<String> responseShortResult(@PathVariable Long shortFormId, @PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt)
-//            return new BaseResponse<>(INVALID_USER_JWT);
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt)
+            return new BaseResponse<>(INVALID_USER_JWT);
 
         shortResultService.responseShortResult(shortFormId, memberId);
         String result = "짧폼이 잠금 해제되었습니다.";
@@ -68,12 +71,12 @@ public class ShortResultController {
             @ApiResponse(responseCode="2003", description="권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<List<GetShortResultBoardRes>> getShortResultBoard(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable Long memberId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
 
         List<GetShortResultBoardRes> result = shortResultService.getShortResultBoard(page, size, memberId);
 
