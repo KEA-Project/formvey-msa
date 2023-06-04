@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 public class PostSurveyReq {
-    private Long memberId;
     private String surveyTitle;
     private String surveyContent;
     private LocalDateTime startDate;
@@ -30,9 +29,9 @@ public class PostSurveyReq {
     private List<PostQuestionReq> questions = new ArrayList<>();
 
     //-------------------------------------------------------------
-    public static Survey toEntity(PostSurveyReq dto){
+    public static Survey toEntity(Long memberId, PostSurveyReq dto){
         return Survey.builder()
-                .memberId(dto.memberId)
+                .memberId(memberId)
                 .surveyTitle(dto.surveyTitle)
                 .surveyContent(dto.surveyContent)
                 .startDate(dto.startDate)

@@ -1,6 +1,6 @@
 package com.kale.surveyservice.controller;
 
-import com.kale.responseservice.service.JwtService;
+import com.kale.surveyservice.service.JwtService;
 import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.userReward.GetUserRewardListRes;
 import com.kale.surveyservice.dto.userReward.PostRandomRewardReq;

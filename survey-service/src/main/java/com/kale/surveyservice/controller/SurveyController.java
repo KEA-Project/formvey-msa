@@ -83,7 +83,7 @@ public class SurveyController {
     })
     private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status) {
         Long memberId = jwtService.getUserIdx();
-        PostSurveyRes postSurveyRes = surveyService.createSurvey(dto, status);
+        PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId,dto, status);
 
         return new BaseResponse<>(postSurveyRes);
     }
@@ -108,8 +108,8 @@ public class SurveyController {
             @ApiResponse(responseCode = "2034", description = "설문 종료 날짜를 등록해주세요.")
     })
     private BaseResponse<PostSurveyRes> updateSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long surveyId, @PathVariable int status) {
-        // memberId = jwtService.getUserIdx();
-        PostSurveyRes postSurveyRes = surveyService.updateSurvey(surveyId,dto, status);
+        Long memberId = jwtService.getUserIdx();
+        PostSurveyRes postSurveyRes = surveyService.updateSurvey(surveyId,memberId,dto, status);
 
         return new BaseResponse<>(postSurveyRes);
     }

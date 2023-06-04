@@ -79,7 +79,7 @@ public class SurveyService {
     /**
      * 설문 첫 생성 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
-    public PostSurveyRes createSurvey(PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
+    public PostSurveyRes createSurvey(Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
         // 설문 제목을 입력하지 않았을 경우
         if (status == 2 && dto.getSurveyTitle() == null)
             throw new BaseException(SURVEYS_EMPTY_SURVEY_TITLE);
@@ -96,7 +96,7 @@ public class SurveyService {
         if (status == 2 && dto.getEndDate() == null)
             throw new BaseException(SURVEYS_EMPTY_SURVEY_END_DATE);
 
-        Survey survey = PostSurveyReq.toEntity(dto);
+        Survey survey = PostSurveyReq.toEntity(memberId,dto);
         survey.setStatus(status);
 
         survey = surveyRepository.save(survey); // 본 설문 저장
@@ -107,7 +107,7 @@ public class SurveyService {
     /**
      * 존재하는 설문 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
-    public PostSurveyRes updateSurvey(Long surveyId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
+    public PostSurveyRes updateSurvey(Long surveyId, Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
         // 설문 제목을 입력하지 않았을 경우
         if (status == 2 && dto.getSurveyTitle() == null)
             throw new BaseException(SURVEYS_EMPTY_SURVEY_TITLE);
@@ -128,7 +128,7 @@ public class SurveyService {
         List<Question> questions = questionRepository.findBySurveyId(surveyId);
 
         questionRepository.deleteAll(questions);
-        survey.update(dto);
+        survey.update(memberId, dto);
         survey.setStatus(status);
         surveyRepository.save(survey);
 
