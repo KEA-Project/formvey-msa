@@ -4,18 +4,15 @@ import com.kale.memberservice.common.BaseResponse;
 import com.kale.memberservice.dto.PostLoginReq;
 import com.kale.memberservice.dto.PostLoginRes;
 import com.kale.memberservice.service.AuthService;
-import com.kale.memberservice.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/member-service")
