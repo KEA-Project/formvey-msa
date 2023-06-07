@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "survey-service", url = "http://localhost:8082/survey-service")
+@FeignClient(name = "survey-service", url = "http://172.16.212.107:8082/survey-service")
 public interface SurveyServiceClient {
 
     // 설문 조회

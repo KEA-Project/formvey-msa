@@ -5,7 +5,7 @@ import com.kale.surveyservice.dto.member.GetMemberInfoSubRes;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "member-service", url = "http://localhost:8081/member-service")
+@FeignClient(name = "member-service", url = "http://172.16.212.106:8081/member-service")
 public interface MemberServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/members/info/sub/{memberId}", consumes = "application/json")

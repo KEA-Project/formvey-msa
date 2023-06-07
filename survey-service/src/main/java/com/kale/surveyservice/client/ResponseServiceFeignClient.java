@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="response-service", url = "http://localhost:8083/response-service")
+@FeignClient(name="response-service", url = "http://172.16.212.108:8083/response-service")
 public interface ResponseServiceFeignClient {
 
     //response 서비스에서 해당하는 로직 수행
