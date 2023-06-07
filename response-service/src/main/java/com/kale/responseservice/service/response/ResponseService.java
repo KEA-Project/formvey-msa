@@ -252,7 +252,8 @@ public class ResponseService {
             if (question.getType() == 2) { // 주관식이면 주관식 답변 리스트 반환 객관식 답변은 null
                 for (Answer answer : answers) {
                     String answerContent = answer.getAnswerContent();
-                    subjectiveAnswers.add(answerContent);
+                    String contents = answerContent.substring(1, answerContent.length() - 1);
+                    subjectiveAnswers.add(contents);
                 }
                 getResponseStatisticsRes.add(new GetResponseStatisticsRes(question.getId(), question.getQuestionIdx(), question.getQuestionTitle(), null, subjectiveAnswers));
             }
@@ -278,8 +279,9 @@ public class ResponseService {
             } else {
                 for (Answer answer : answers) {
                     String answerContent = answer.getAnswerContent();
+                    String contents = answerContent.substring(1, answerContent.length() - 1);
                     for (GetChoiceRes choice : choices) {
-                        if (answerContent.equals(choice.getChoiceContent())) {
+                        if (contents.equals(choice.getChoiceContent())) {
                             multipleChoiceCnt[choice.getChoiceIndex()]++;
                         }
                     }
