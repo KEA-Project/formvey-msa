@@ -3,6 +3,7 @@ package com.kale.responseservice.controller.response;
 import com.kale.responseservice.common.BaseResponse;
 import com.kale.responseservice.dto.client.GetResponseCountRes;
 import com.kale.responseservice.dto.response.*;
+import com.kale.responseservice.service.JwtService;
 import com.kale.responseservice.service.response.ResponseService;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.kale.responseservice.common.BaseResponseStatus.INVALID_USER_JWT;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/response-service/responses")
 public class ResponseController {
     private final ResponseService responseService;
-//    private final JwtService jwtService;
+    private final JwtService jwtService;
 
     /**
      * 설문 응답
@@ -33,15 +36,14 @@ public class ResponseController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다."),
             @ApiResponse(responseCode = "2040", description = "본인이 생성한 설문입니다."),
             @ApiResponse(responseCode = "2041", description = "이미 응답한 설문입니다.")
-
     })
     private BaseResponse<String> responseSurvey(@RequestBody PostResponseReq dto, @PathVariable Long surveyId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (dto.getMemberId() != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (dto.getMemberId() != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         responseService.responseSurvey(dto, surveyId);
         String result = "응답이 등록되었습니다";
 
@@ -65,12 +67,12 @@ public class ResponseController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     private BaseResponse<String> updateResponse(@RequestBody PostResponseReq dto, @PathVariable Long surveyId, @PathVariable Long responseId) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (dto.getMemberId() != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (dto.getMemberId() != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
 
         responseService.updateResponse(dto,surveyId,responseId);
         String result = "응답이 수정되었습니다";
@@ -106,12 +108,12 @@ public class ResponseController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<String> deleteResponse(@PathVariable Long responseId, @RequestBody DeleteResponseReq deleteResponseReq) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (deleteResponseReq.getMemberId() != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (deleteResponseReq.getMemberId() != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         responseService.deleteResponse(responseId);
         String result = "응답이 삭제되었습니다.";
 
@@ -147,12 +149,12 @@ public class ResponseController {
             @ApiResponse(responseCode = "2003", description = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<GetResponseList> getResponseList(@PathVariable Long memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
-//        //jwt에서 idx 추출.
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        //memberId와 접근한 유저가 같은지 확인
-//        if (memberId != memberIdByJwt) {
-//            return new BaseResponse<>(INVALID_USER_JWT);
-//        }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         GetResponseList getResponseList = responseService.getResponseList(memberId,page,size);
 
         return new BaseResponse<>(getResponseList);

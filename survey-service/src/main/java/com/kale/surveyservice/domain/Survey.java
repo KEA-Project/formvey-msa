@@ -45,9 +45,9 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<ShortForm> shortForms  = new ArrayList<>();
 
-    public void update(PostSurveyReq dto) {
+    public void update(Long memberId, PostSurveyReq dto) {
         this.surveyTitle = dto.getSurveyTitle();
-        this.memberId = dto.getMemberId();
+        this.memberId = memberId;
         this.surveyContent = dto.getSurveyContent();
         this.startDate = dto.getStartDate();
         this.endDate = dto.getEndDate();

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "member-service", url = "http://localhost:8081/member-service")
 public interface MemberServiceClient {
-    @RequestMapping(method = RequestMethod.GET, value = "/members/info/{memberId}", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/members/res/info/{memberId}", consumes = "application/json")
     BaseResponse<GetMemberRes> getMemberInfo(@PathVariable Long memberId);
 
     // 멤버 포인트 증가
