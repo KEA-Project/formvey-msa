@@ -9,7 +9,7 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://172.16.212.104, http://172.16.212.104:3000, http://localhost:3000, http://127.0.0.1:3000"
+            allowedOrigins: "http://172.16.212.104, http://formvey.site, http://localhost:3000, http://127.0.0.1:3000"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods: "*"

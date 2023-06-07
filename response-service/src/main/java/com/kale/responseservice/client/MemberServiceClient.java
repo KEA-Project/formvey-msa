@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+//build
 @FeignClient(name = "member-service", url = "http://172.16.212.106:8081/member-service")
 public interface MemberServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/members/res/info/{memberId}", consumes = "application/json")
