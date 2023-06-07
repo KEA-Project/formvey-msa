@@ -21,6 +21,18 @@ public class MemberController {
     private final Environment env;
     private final MemberService memberService;
 
+    /**
+     * CI/CD TEST
+     * [POST] /members/kale/ci-cd/test
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/kale/ci-cd/test")
+    @Operation(summary = "CI/CD 테스트")
+    private BaseResponse<String> emailSignup() {
+        return new BaseResponse<>("빌드, 배포가 완료되었습니다.");
+    }
+
     @GetMapping("/check")
     public String check(HttpServletRequest request) {
         log.info("check is called in Member Service");

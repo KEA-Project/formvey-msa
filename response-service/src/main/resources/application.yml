@@ -6,9 +6,9 @@ spring:
     name: response-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/responseDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://172.16.212.108:3306/responseDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: dltmdgml12!
+    password: formvey1234!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   mvc:
@@ -29,7 +29,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://172.16.212.105:8761/eureka
 
 springdoc:
   default-consumes-media-type: application/json

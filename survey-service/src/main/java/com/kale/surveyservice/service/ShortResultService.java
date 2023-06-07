@@ -10,7 +10,6 @@ import com.kale.surveyservice.repository.ShortFormRepository;
 import com.kale.surveyservice.repository.ShortResultRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -36,12 +35,12 @@ public class ShortResultService {
      */
     public void responseShortResult(Long shortFormId, Long memberId) {
         //멤버 서비스로 api 요청
-        int point=memberServiceFeignClient.getInfoSub(memberId).getResult().getPoint();
+        int point = memberServiceFeignClient.getInfoSub(memberId).getResult().getPoint();
         ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
 
         // 해금하면 사용자 point 차감
         if (point < 20) {
-            throw new BaseException( SHORTFORMS_LACKING_POINT);
+            throw new BaseException(SHORTFORMS_LACKING_POINT);
         } else {
             //멤버 서비스로 포인트 차감 api 요청
            String reduce = memberServiceFeignClient.modifyPoint(memberId).getResult();
