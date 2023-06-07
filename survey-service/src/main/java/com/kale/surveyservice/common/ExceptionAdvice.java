@@ -1,8 +1,5 @@
 package com.kale.surveyservice.common;
 
-import com.kale.responseservice.common.BaseException;
-import com.kale.responseservice.common.BaseResponse;
-import com.kale.responseservice.common.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
