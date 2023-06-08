@@ -3,6 +3,7 @@ package com.kale.surveyservice.controller;
 import com.kale.surveyservice.dto.client.GetClientShortFormRes;
 import com.kale.surveyservice.common.BaseResponse;
 import com.kale.surveyservice.dto.shortForm.*;
+import com.kale.surveyservice.dto.shortOption.GetShortOptionRes;
 import com.kale.surveyservice.service.ShortFormService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -82,5 +83,23 @@ public class ShortFormController {
         GetShortFormMainRes getShortFormMainRes = shortFormService.getShortFormMain(memberId);
 
         return new BaseResponse<>(getShortFormMainRes);
+    }
+
+
+
+    /**
+     * 짧폼 보기 조회
+     * [GET] /shortOptions/{shortFormId}
+     * @return BaseResponse<List<GetOptionRes>>
+     */
+    @ResponseBody
+    @GetMapping("/shortOption/{shortFormId}")
+    @Operation(summary = "짧폼아이디로 짧폼 보기 조회")
+    @Parameter(name = "shortFormId", description = "짧폼아이디", required = true)
+    @RequestMapping(method = RequestMethod.GET, value = "/shortOptions/{shortFormId}", consumes = "application/json")
+    public BaseResponse<List<GetShortOptionRes>> getShortOption(@PathVariable Long shortFormId) {
+        List<GetShortOptionRes> getOptionRes = shortFormService.getShortOptions(shortFormId);
+
+        return new BaseResponse<>(getOptionRes);
     }
 }

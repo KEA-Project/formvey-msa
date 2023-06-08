@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @SpringBootApplication
 public class SurveyServiceApplication {
+    //formvey 1.0.0
     public static void main(String[] args) {
         SpringApplication.run(SurveyServiceApplication.class, args);
     }

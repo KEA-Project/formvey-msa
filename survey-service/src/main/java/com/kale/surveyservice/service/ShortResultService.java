@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.kale.surveyservice.common.BaseResponseStatus.*;

@@ -109,4 +109,16 @@ public class ShortFormService {
 
         return new GetShortFormMainRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), options);
     }
+
+    public List<GetShortOptionRes> getShortOptions(Long shortFormId){
+
+        ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
+
+        List<GetShortOptionRes> options = shortForm.getShortOptions().stream()
+                .map(shortOption -> new GetShortOptionRes(shortOption.getId(), shortOption.getShortIndex(), shortOption.getShortContent()))
+                .collect(Collectors.toList());
+
+        return options;
+
+    }
 }
