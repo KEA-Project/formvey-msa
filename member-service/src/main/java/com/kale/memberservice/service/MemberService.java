@@ -92,6 +92,6 @@ public class MemberService {
      */
     public void modifyPoint(Long memberId){
         Member member = memberRepository.findById(memberId).get();
-        member.modifySurveyPoint(-20);
+        member.modifySurveyPoint(-10);
     }
 }

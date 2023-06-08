@@ -24,6 +24,11 @@ spring:
         format_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 eureka:
   client:
     register-with-eureka: true
@@ -37,3 +42,16 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     disable-swagger-default-url: true
+
+cloud:
+  aws:
+    s3:
+      bucket: eraofband
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true
+      access-key: AKIARNTNV6CZZBBIWQMR
+      secret-key: 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

@@ -1,6 +1,7 @@
 package com.kale.responseservice.client;
 
 import com.kale.responseservice.common.BaseResponse;
+import com.kale.responseservice.dto.client.GetOptionRes;
 import com.kale.responseservice.dto.client.GetQuestionRes;
 import com.kale.responseservice.dto.client.GetClientShortFormRes;
 import com.kale.responseservice.dto.client.GetSurveyRes;
@@ -37,4 +38,8 @@ public interface SurveyServiceClient {
     // 짧폼아이디로 설문 조회
     @RequestMapping(method = RequestMethod.GET, value = "/surveys/{shortFormId}", consumes = "application/json")
     BaseResponse<GetSurveyRes> getSurveyByShortFormId(@PathVariable Long shortFormId);
+
+    //짧폼아이디로 짧폼 보기 조회
+    @RequestMapping(method = RequestMethod.GET, value = "/shortForms/shortOptions/{shortFormId}", consumes = "application/json")
+    BaseResponse<List<GetOptionRes>> getShortOptionByShortFormId(@PathVariable Long shortFormId);
 }

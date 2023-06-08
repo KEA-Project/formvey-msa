@@ -39,7 +39,7 @@ public class ShortResultService {
         ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
 
         // 해금하면 사용자 point 차감
-        if (point < 20) {
+        if (point < 10) {
             throw new BaseException(SHORTFORMS_LACKING_POINT);
         } else {
             //멤버 서비스로 포인트 차감 api 요청

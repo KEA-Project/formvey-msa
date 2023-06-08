@@ -2,6 +2,7 @@ package com.kale.responseservice.controller.shortAnswer;
 
 import com.kale.responseservice.common.BaseResponse;
 import com.kale.responseservice.dto.client.GetShortResponseCountRes;
+import com.kale.responseservice.dto.shortAnswer.GetShortStatisticsRes;
 import com.kale.responseservice.dto.shortAnswer.PostShortAnswerReq;
 import com.kale.responseservice.service.JwtService;
 import com.kale.responseservice.service.shortAnswer.ShortAnswerService;
@@ -78,5 +79,19 @@ public class ShortAnswerController {
     public BaseResponse<String> existShortResponse(@PathVariable Long memberId, @PathVariable Long shortformId) {
         String result = shortAnswerService.existShortResponse(memberId, shortformId);
         return new BaseResponse<>(result);
+    }
+
+
+    /**
+     * 짧폼 답변 통계 조회
+     * [GET] /shortanswers/statistics/{shortFormId}
+     * @return BaseResponse<GetShortStatisticsRes>
+     */
+    @ResponseBody
+    @GetMapping("/statistics/{shortFormId}")
+    @Operation(summary = "짧폼 답변 통계 조회")
+    public BaseResponse<GetShortStatisticsRes> getShortStatistics(@PathVariable Long shortFormId) {
+        GetShortStatisticsRes getShortStatisticsRes = shortAnswerService.getShortStatistics(shortFormId);
+        return new BaseResponse<>(getShortStatisticsRes);
     }
 }

@@ -12,4 +12,7 @@ public interface ShortAnswerRepository extends JpaRepository<ShortAnswer, Long> 
 
     @Query("SELECT sa FROM ShortAnswer sa WHERE sa.memberId=:memberId and sa.shortFormId=:shortFormId")
     List<ShortAnswer> findExistById(Long memberId, Long shortFormId);
+
+    @Query("SELECT sa FROM ShortAnswer sa WHERE sa.shortFormId=:shortFormId")
+    List<ShortAnswer> findByShortFormId(Long shortFormId);
 }

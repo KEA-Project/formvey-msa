@@ -11,6 +11,6 @@ public interface MemberServiceFeignClient {
     @RequestMapping(method = RequestMethod.GET, value = "/members/info/sub/{memberId}", consumes = "application/json")
     BaseResponse<GetMemberInfoSubRes> getInfoSub(@PathVariable("memberId") Long memberId);
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/members/point/{memberId}", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/members/point/{memberId}", consumes = "application/json")
     BaseResponse<String> modifyPoint(@PathVariable("memberId") Long memberId);
 }
